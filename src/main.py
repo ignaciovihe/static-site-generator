@@ -1,26 +1,13 @@
 from textnode import *
 from htmlnode import *
+from copy_static import *
 
 def main():
 
-    new_node = TextNode("This is some anchor text", TextType.LINK, "https://www.boot.dev")
-    new_node2 = TextNode("This is some anchor text", TextType.LINK, "https://www.boot.deva")
-    print(new_node)
-    print(new_node == new_node2)
+    dir_path_static = "./static"
+    dir_path_public = "./public"
 
-    node = ParentNode(
-        "p",
-        [
-            LeafNode("b", "Bold text"),
-            LeafNode(None, "Normal text"),
-            LeafNode("i", "italic text"),
-            ParentNode("p", [
-                LeafNode("a", "Click me!", {"href": "https://www.google.com"}),
-            ],),
-            LeafNode(None, "Normal text"),
-        ],
-    )
+    copy_directory(dir_path_static, dir_path_public)
 
-    print(node.to_html())
 
 main()
