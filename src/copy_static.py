@@ -5,6 +5,7 @@ import shutil
 def copy_directory(src: str, dst:str):
 
     if os.path.exists(dst):
+        print(f"Deleting {dst}")
         shutil.rmtree(dst)
     print(f"Creating {dst}")
     os.mkdir(dst)

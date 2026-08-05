@@ -424,6 +424,21 @@ This is the same paragraph on a new line
             "<div><blockquote>Quote 1\nQuote 2</blockquote></div>",
         )
 
+    def test_markdown_to_html_node_quote_line_empty(self):
+            md = textwrap.dedent("""
+                > Quote 1
+                >
+                > Quote 2
+    
+            """)
+    
+            node = markdown_to_html_node(md)
+            html = node.to_html()
+            self.assertEqual(
+                html,
+                "<div><blockquote>Quote 1\n\nQuote 2</blockquote></div>",
+            )
+
     def test_markdown_to_html_node_uolist(self):
         md = textwrap.dedent("""
             - Item 1
@@ -501,6 +516,40 @@ This is the same paragraph on a new line
 
         node = markdown_to_html_node(md)
         html = node.to_html()
+        self.assertEqual(
+            html,
+            expected_html        
+        )
+
+    def test_markdown_to_html_node_multiple_block_types2(self):
+
+        md = textwrap.dedent("""\
+            # Tolkien Fan Club
+
+            ![JRR Tolkien sitting](/images/tolkien.png)
+
+            Here's the deal, **I like Tolkien**.
+
+            > "I am in fact a Hobbit in all but size."
+            >
+            > -- J.R.R. Tolkien
+
+            ## Blog posts
+        """)
+
+        expected_html = (
+            "<div>"
+            "<h1>Tolkien Fan Club</h1>"
+            '<p><img src="/images/tolkien.png" alt="JRR Tolkien sitting"></p>'
+            "<p>Here's the deal, <b>I like Tolkien</b>.</p>"
+            '<blockquote>"I am in fact a Hobbit in all but size."\n\n-- J.R.R. Tolkien</blockquote>'
+            '<h2>Blog posts</h2>'
+            "</div>"
+        )
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.maxDiff = None
         self.assertEqual(
             html,
             expected_html        

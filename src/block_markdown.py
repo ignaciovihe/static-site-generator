@@ -30,7 +30,7 @@ def block_to_block_type(markdown_block: str)-> BlockType:
         return BlockType.HEADING
     if (re.search(r"^```\n[\s\S]+```$", markdown_block)):
         return BlockType.CODE
-    if all(re.fullmatch(r"> ?[^>\s].+", line) for line in markdown_block.split("\n")):
+    if all(re.fullmatch(r">(?: ?[^>\s].*)?", line) for line in markdown_block.split("\n")):
         return BlockType.QUOTE
     if all(re.fullmatch(r"- \S.+", line) for line in markdown_block.split("\n")):
         return BlockType.UOLIST
