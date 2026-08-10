@@ -1,5 +1,6 @@
 import re
 import os
+import shutil
 from block_markdown import markdown_to_html_node
 
 
@@ -32,6 +33,23 @@ def generate_page(from_path: str, template_path: str, dest_path: str):
         os.makedirs(parent_dir, exist_ok=True)
     with open(dest_path, "w") as f:
         f.write(template)
-    
+
+
+def generate_pages_recursive(dir_path_content: str, template_path: str, dest_dir_path: str):
+
+
+    if  not os.path.exists(dest_dir_path):
+        print(f"Creating {dest_dir_path}")
+        os.makedirs(dest_dir_path, exist_ok= True)
+
+    for item in os.listdir(dir_path_content):
+        src_path = os.path.join(dir_path_content, item)
+        dst_path = os.path.join(dest_dir_path, item)
+        if os.path.isfile(src_path) and os.path.splitext(src_path)[1] == ".md":
+            dst_path = dst_path.removesuffix(".md") + ".html"
+            generate_page(src_path, template_path, dst_path)
+        if os.path.isdir(src_path):
+            generate_pages_recursive(src_path, template_path, dst_path)
+
 
 
